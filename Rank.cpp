@@ -108,20 +108,20 @@ void Rank::receiveFromBus(BusPacket *packet)
 		bankStates[packet->bank].nextPrecharge = max(bankStates[packet->bank].nextPrecharge, currentClockCycle + READ_TO_PRE_DELAY);
 		for (size_t i=0;i<NUM_BANKS;i++)
 		{
-            if(DDR4){
-                if(packet ->bankgroup == i / NUM_BANKS_PER_BANKGROUP){
-                    bankStates[i].nextRead = max(currentClockCycle + max(tCCDL, BL/2), bankStates[i].nextRead);
-                    bankStates[i].nextWrite = max(currentClockCycle + READ_TO_WRITE_DELAY, bankStates[i].nextWrite);
-                }
-                else{
-                    bankStates[i].nextRead = max(currentClockCycle + max(tCCDS, BL/2), bankStates[i].nextRead);
-                    bankStates[i].nextWrite = max(currentClockCycle + READ_TO_WRITE_DELAY, bankStates[i].nextWrite);
-                }
-            }
-            else{
-                bankStates[i].nextRead = max(currentClockCycle + max(tCCDS, BL/2), bankStates[i].nextRead);
-                bankStates[i].nextWrite = max(currentClockCycle + READ_TO_WRITE_DELAY, bankStates[i].nextWrite);
-            }
+            		if(DDR4){
+                		if(packet ->bankgroup == i / NUM_BANKS_PER_BANKGROUP){
+                    			bankStates[i].nextRead = max(currentClockCycle + max(tCCDL, BL/2), bankStates[i].nextRead);
+                    			bankStates[i].nextWrite = max(currentClockCycle + READ_TO_WRITE_DELAY, bankStates[i].nextWrite);
+                		}
+                		else{
+                   			bankStates[i].nextRead = max(currentClockCycle + max(tCCDS, BL/2), bankStates[i].nextRead);
+                    			bankStates[i].nextWrite = max(currentClockCycle + READ_TO_WRITE_DELAY, bankStates[i].nextWrite);
+                		}
+            		}
+            		else{
+                		bankStates[i].nextRead = max(currentClockCycle + max(tCCDS, BL/2), bankStates[i].nextRead);
+                		bankStates[i].nextWrite = max(currentClockCycle + READ_TO_WRITE_DELAY, bankStates[i].nextWrite);
+            		}
 		}
 
 		//get the read data and put it in the storage which delays until the appropriate time (RL)
